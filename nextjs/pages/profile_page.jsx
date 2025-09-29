@@ -68,7 +68,6 @@ const ClearIcon = ({ onClick }) => (
   </svg>
 );
 
-
 export default function ProfilePage() {
   const [profile, setProfile] = useState({
     macbId: "mach.67f7add7e3ff5c9eba647993",
@@ -85,13 +84,14 @@ export default function ProfilePage() {
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  
   const [hoverState, setHoverState] = useState({
     dashboard: false,
     manage: false,
     signOut: false,
     editButton: false,
     chatIcon: false,
+    topDashboard: false,
+    topManage: false,
   });
 
   const handleMouseEnter = (key) => setHoverState(prev => ({ ...prev, [key]: true }));
@@ -185,220 +185,264 @@ export default function ProfilePage() {
     transform: 'scale(1.1)',
   };
 
+  const topNavLinkStyle = {
+    color: "#fff",
+    marginRight: "25px",
+    cursor: "pointer",
+    fontWeight: "600",
+    transition: "text-shadow 0.2s ease-in-out",
+  };
+
+  const topNavLinkHoverStyle = {
+    textShadow: "0 0 8px #3A6A3B",
+  };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        fontFamily: "Arial, sans-serif",
-        background: "#f8f9fa",
-        color: "#333",
-        minHeight: "100vh",
-      }}
-    >
-      {/* Sidebar */}
+    <div style={{ fontFamily: "Arial, sans-serif", background: "#f8f9fa", color: "#333", minHeight: "100vh" }}>
+      
+      {/* Top green navigation bar with MACB logo and Dashboard/Manage links */}
       <div
         style={{
-          width: "250px",
-          background: "#fff",
-          display: "flex",
-          flexDirection: "column",
-          padding: "30px 20px",
-          borderRight: "1px solid #e0e0e0",
+          backgroundColor: "#3A6A3B",
+          color: "#fff",
+          padding: "10px 30px",
+          fontSize: "18px",
+          fontWeight: "600",
           position: "sticky",
           top: 0,
-          height: "100vh",
-          overflowY: "auto",
+          zIndex: 1000,
+          display: "flex",
+          alignItems: "center",
         }}
       >
-        <div style={{ textAlign: "center", marginBottom: "30px" }}>
-          <img
-            src="/images/MACB_Profile.png"
-            alt="Profile"
-            style={{
-              width: "90px",
-              height: "70px",
-              borderRadius: "50%",
-              marginBottom: "10px",
-            }}
-          />
-          <div style={{ fontWeight: "600" }}>{profile.fullName.split(" ")[0]}</div>
-          <div style={{ color: "#888", fontSize: "14px" }}>{profile.email}</div>
-        </div>
-        
-        <div 
-          style={hoverState.dashboard ? {...sidebarLinkStyle, ...sidebarLinkHoverStyle} : sidebarLinkStyle}
+        <img 
+          src="/images/MACB_logo.png" 
+          alt="MACB Logo" 
+          style={{ height: "40px", marginRight: "25px" }} 
+        />
+        <div
+          style={hoverState.topDashboard ? {...topNavLinkStyle, ...topNavLinkHoverStyle} : topNavLinkStyle}
           onClick={() => navigateTo('/dashboard_page')}
-          onMouseEnter={() => handleMouseEnter('dashboard')}
-          onMouseLeave={() => handleMouseLeave('dashboard')}
+          onMouseEnter={() => handleMouseEnter('topDashboard')}
+          onMouseLeave={() => handleMouseLeave('topDashboard')}
         >
-          <DashboardIcon />
           Dashboard
         </div>
-        <div 
-          style={hoverState.manage ? {...sidebarLinkStyle, ...sidebarLinkHoverStyle} : sidebarLinkStyle}
+        <div
+          style={hoverState.topManage ? {...topNavLinkStyle, ...topNavLinkHoverStyle} : topNavLinkStyle}
           onClick={() => navigateTo('/insert_extract_page')}
-          onMouseEnter={() => handleMouseEnter('manage')}
-          onMouseLeave={() => handleMouseLeave('manage')}
+          onMouseEnter={() => handleMouseEnter('topManage')}
+          onMouseLeave={() => handleMouseLeave('topManage')}
         >
-          <ManageIcon />
           Manage
         </div>
-        <div 
-          style={hoverState.signOut ? {...sidebarLinkStyle, ...sidebarLinkHoverStyle} : sidebarLinkStyle}
-          onClick={() => navigateTo('/login_page')}
-          onMouseEnter={() => handleMouseEnter('signOut')}
-          onMouseLeave={() => handleMouseLeave('signOut')}
-        >
-          <SignOutIcon />
-          Sign out
-        </div>
       </div>
 
-      {/* Main content */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "40px" }}>
+      <div style={{ display: "flex" }}>
+        {/* Sidebar */}
         <div
           style={{
+            width: "250px",
             background: "#fff",
-            padding: "40px",
-            borderRadius: "8px",
-            maxWidth: "800px",
-            width: "100%",
-            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+            padding: "30px 20px",
+            borderRight: "1px solid #e0e0e0",
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            overflowY: "auto",
           }}
         >
-          {/* M.A.C.B. Header */}
-          <div style={{
-            display: 'flex', 
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '30px',
-          }}>
-            <img src="/images/MACB_logo.png" alt="Logo" style={{ height: '70px', marginRight: '15px' }} />
-            <h1 style={{ margin: 0, fontSize: '29px' }}>M.A.C.B.</h1>
+          <div style={{ textAlign: "center", marginBottom: "30px" }}>
+            <img
+              src="/images/MACB_Profile.png"
+              alt="Profile"
+              style={{
+                width: "90px",
+                height: "70px",
+                borderRadius: "50%",
+                marginBottom: "10px",
+              }}
+            />
+            <div style={{ fontWeight: "600" }}>{profile.fullName.split(" ")[0]}</div>
+            <div style={{ color: "#888", fontSize: "14px" }}>{profile.email}</div>
           </div>
 
-          {/* Info fields */}
-          {profileFields.map((field) => (
-            <div
-              key={field.key}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "16px 0",
-                borderBottom: "1px solid #f0f0f0",
-                fontSize: "14px",
-                alignItems: "center",
-              }}
-            >
-              <span style={{ fontWeight: "600", color: "#333", minWidth: "120px" }}>
-                {field.label}
-              </span>
-              {isEditing && field.editable ? (
-                <div style={{ display: 'flex', alignItems: 'center', flex: 1, marginLeft: '10px' }}>
-                  {field.type === "select" ? (
-                    <select
-                      name="notifs"
-                      value={profile.notifs}
-                      onChange={handleChange}
-                      style={inputStyle}
-                    >
-                      <option value="On">On</option>
-                      <option value="Off">Off</option>
-                    </select>
-                  ) : (
-                    <>
-                      <input
-                        type="text"
-                        name={field.key}
-                        value={profile[field.key]}
+          <div 
+            style={hoverState.dashboard ? {...sidebarLinkStyle, ...sidebarLinkHoverStyle} : sidebarLinkStyle}
+            onClick={() => navigateTo('/dashboard_page')}
+            onMouseEnter={() => handleMouseEnter('dashboard')}
+            onMouseLeave={() => handleMouseLeave('dashboard')}
+          >
+            <DashboardIcon />
+            Dashboard
+          </div>
+          <div 
+            style={hoverState.manage ? {...sidebarLinkStyle, ...sidebarLinkHoverStyle} : sidebarLinkStyle}
+            onClick={() => navigateTo('/insert_extract_page')}
+            onMouseEnter={() => handleMouseEnter('manage')}
+            onMouseLeave={() => handleMouseLeave('manage')}
+          >
+            <ManageIcon />
+            Manage
+          </div>
+          <div 
+            style={hoverState.signOut ? {...sidebarLinkStyle, ...sidebarLinkHoverStyle} : sidebarLinkStyle}
+            onClick={() => navigateTo('/login_page')}
+            onMouseEnter={() => handleMouseEnter('signOut')}
+            onMouseLeave={() => handleMouseLeave('signOut')}
+          >
+            <SignOutIcon />
+            Sign out
+          </div>
+        </div>
+
+        {/* Main content */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "40px" }}>
+          <div
+            style={{
+              background: "#fff",
+              padding: "40px",
+              borderRadius: "8px",
+              maxWidth: "800px",
+              width: "100%",
+              margin: "0 auto",
+            }}
+          >
+            {/* M.A.C.B. Header */}
+            <div style={{
+              display: 'flex', 
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '30px',
+            }}>
+              <img src="/images/MACB_logo.png" alt="Logo" style={{ height: '70px', marginRight: '15px' }} />
+              <h1 style={{ margin: 0, fontSize: '29px' }}>M.A.C.B.</h1>
+            </div>
+
+            {/* Info fields */}
+            {profileFields.map((field) => (
+              <div
+                key={field.key}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: "16px 0",
+                  borderBottom: "1px solid #f0f0f0",
+                  fontSize: "14px",
+                  alignItems: "center",
+                }}
+              >
+                <span style={{ fontWeight: "600", color: "#333", minWidth: "120px" }}>
+                  {field.label}
+                </span>
+                {isEditing && field.editable ? (
+                  <div style={{ display: 'flex', alignItems: 'center', flex: 1, marginLeft: '10px' }}>
+                    {field.type === "select" ? (
+                      <select
+                        name="notifs"
+                        value={profile.notifs}
                         onChange={handleChange}
                         style={inputStyle}
-                      />
-                      <ClearIcon onClick={() => handleClearField(field.key)} />
-                    </>
-                  )}
-                </div>
-              ) : (
-                <span style={{ color: "#666", textAlign: "left", flex: 1, marginLeft: '10px' }}>
-                  {profile[field.key]}
-                </span>
-              )}
-            </div>
-          ))}
+                      >
+                        <option value="On">On</option>
+                        <option value="Off">Off</option>
+                      </select>
+                    ) : (
+                      <>
+                        <input
+                          type="text"
+                          name={field.key}
+                          value={profile[field.key]}
+                          onChange={handleChange}
+                          style={inputStyle}
+                        />
+                        <ClearIcon onClick={() => handleClearField(field.key)} />
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <span style={{ color: "#666", textAlign: "left", flex: 1, marginLeft: '10px' }}>
+                    {profile[field.key]}
+                  </span>
+                )}
+              </div>
+            ))}
 
-          {/* Bio section */}
-          <div style={{ marginTop: "30px" }}>
-            <label
-              style={{
-                display: "block",
-                fontWeight: "600",
-                marginBottom: "10px",
-                fontSize: "14px",
-                color: "#333",
-              }}
-            >
-              Describe Yourself:
-            </label>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <textarea
-                name="bio"
-                value={profile.bio}
-                onChange={handleChange}
-                readOnly={!isEditing}
+            {/* Bio section */}
+            <div style={{ marginTop: "30px" }}>
+              <label
                 style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                  minHeight: "80px",
-                  padding: "10px",
-                  border: isEditing ? "1px solid #ddd" : "1px solid #eee",
-                  borderRadius: "6px",
+                  display: "block",
+                  fontWeight: "600",
+                  marginBottom: "10px",
                   fontSize: "14px",
-                  resize: "vertical",
-                  color: "#555",
-                  backgroundColor: isEditing ? "#fff" : "#fcfcfc",
+                  color: "#333",
                 }}
-              />
-              {isEditing && <ClearIcon onClick={() => handleClearField('bio')} />}
+              >
+                Describe Yourself:
+              </label>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <textarea
+                  name="bio"
+                  value={profile.bio}
+                  onChange={handleChange}
+                  readOnly={!isEditing}
+                  style={{
+                    width: "100%",
+                    boxSizing: "border-box",
+                    minHeight: "80px",
+                    padding: "10px",
+                    border: isEditing ? "1px solid #ddd" : "1px solid #eee",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    resize: "vertical",
+                    color: "#555",
+                    backgroundColor: isEditing ? "#fff" : "#fcfcfc",
+                  }}
+                />
+                {isEditing && <ClearIcon onClick={() => handleClearField('bio')} />}
+              </div>
             </div>
+
+            {/* Edit/Save Button */}
+            <button
+              onClick={handleEditSave}
+              style={hoverState.editButton ? {...buttonStyle, ...buttonHoverStyle} : buttonStyle}
+              onMouseEnter={() => handleMouseEnter('editButton')}
+              onMouseLeave={() => handleMouseLeave('editButton')}
+            >
+              {isEditing ? "Save" : "Edit"}
+            </button>
           </div>
 
-          {/* Edit/Save Button */}
-          <button
-            onClick={handleEditSave}
-            style={hoverState.editButton ? {...buttonStyle, ...buttonHoverStyle} : buttonStyle}
-            onMouseEnter={() => handleMouseEnter('editButton')}
-            onMouseLeave={() => handleMouseLeave('editButton')}
+          {/* Footer */}
+          <div
+            style={{
+              marginTop: "20px",
+              paddingTop: "30px",
+              fontSize: "12px",
+              color: "#999",
+              textAlign: "center",
+              width: "100%",
+              maxWidth: "800px",
+              margin: "20px auto 0",
+            }}
           >
-            {isEditing ? "Save" : "Edit"}
-          </button>
+            © 2025 M.A.C.B., Inc. All Rights Reserved.
+          </div>
         </div>
 
-        {/* Footer */}
-        <div
-          style={{
-            marginTop: "20px",
-            paddingTop: "30px",
-            fontSize: "12px",
-            color: "#999",
-            textAlign: "center",
-            width: "100%",
-            maxWidth: "800px",
-            margin: "20px auto 0",
-          }}
-        >
-          © 2025 M.A.C.B., Inc. All Rights Reserved.
-        </div>
+        {/* Chat Icon */}
+        <img
+          src="/images/AI_Helper.png"
+          alt="Chat"
+          style={hoverState.chatIcon ? {...chatIconStyle, ...chatIconHoverStyle} : chatIconStyle}
+          onMouseEnter={() => handleMouseEnter('chatIcon')}
+          onMouseLeave={() => handleMouseLeave('chatIcon')}
+        />
       </div>
-
-      {/* Chat Icon */}
-      <img
-        src="/images/AI_Helper.png"
-        alt="Chat"
-        style={hoverState.chatIcon ? {...chatIconStyle, ...chatIconHoverStyle} : chatIconStyle}
-        onMouseEnter={() => handleMouseEnter('chatIcon')}
-        onMouseLeave={() => handleMouseLeave('chatIcon')}
-      />
     </div>
   );
 }

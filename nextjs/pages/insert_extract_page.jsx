@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function MacbForm() {
   const [date, setDate] = useState("");
@@ -6,6 +7,10 @@ export default function MacbForm() {
   const [type, setType] = useState("");
   const [amount, setAmount] = useState("");
   const [perUnit, setPerUnit] = useState("");
+  const [hoverChat, setHoverChat] = useState(false);
+  const [hover, setHover] = useState({});
+
+  const router = useRouter();
 
   const handleImport = () => {
     console.log("Import:", {
@@ -15,6 +20,20 @@ export default function MacbForm() {
       amount,
       perUnit,
     });
+  };
+
+  const chatIconStyle = {
+    width: "80px",
+    height: "80px",
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    cursor: "pointer",
+    transition: "transform 0.2s ease-in-out",
+  };
+
+  const chatIconHoverStyle = {
+    transform: "scale(1.1)",
   };
 
   return (
@@ -36,13 +55,39 @@ export default function MacbForm() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 12px 24px;
+          padding: 18px 24px;
           font-size: 16px;
         }
 
-        .nav-left span {
+        .nav-left {
+          display: flex;
+          align-items: center;
+        }
+
+        .logo-small {
+          width: 50px;
+          height: 50px;
+          object-fit: contain;
+          transition: transform 0.2s ease;
+          cursor: pointer;
+        }
+
+        .logo-hover {
+          transform: scale(1.1);
+        }
+
+        .nav-item {
+          margin-left: 10px;
           margin-right: 20px;
           cursor: pointer;
+          display: flex;
+          align-items: center;
+          transition: color 0.2s ease, text-shadow 0.2s ease;
+        }
+
+        .nav-item-hover {
+          color: #d0ffd0;
+          text-shadow: 0 0 8px #3A6A3B;
         }
 
         .small-logo {
@@ -126,11 +171,38 @@ export default function MacbForm() {
       {/* Header */}
       <header className="header">
         <div className="nav-left">
-          <span>Dashboard</span>
-          <span>Manage</span>
+          <img
+            src="/images/MACB_logo.png"
+            alt="Logo"
+            className={`logo-small ${hover.dashboardLogo ? "logo-hover" : ""}`}
+            onMouseEnter={() => setHover({ ...hover, dashboardLogo: true })}
+            onMouseLeave={() => setHover({ ...hover, dashboardLogo: false })}
+          />
+          <div
+            className={`nav-item ${hover.Dashboard ? "nav-item-hover" : ""}`}
+            onMouseEnter={() => setHover({ ...hover, Dashboard: true })}
+            onMouseLeave={() => setHover({ ...hover, Dashboard: false })}
+            onClick={() => router.push("/dashboard_page")}
+          >
+            <span>Dashboard</span>
+          </div>
+          <div
+            className={`nav-item ${hover.Manage ? "nav-item-hover" : ""}`}
+            onMouseEnter={() => setHover({ ...hover, Manage: true })}
+            onMouseLeave={() => setHover({ ...hover, Manage: false })}
+          >
+            <span>Manage</span>
+          </div>
         </div>
         <div className="nav-right">
-          <img src="/images/MACB_Profile.png" alt="logo" className="small-logo" />
+          <img
+            src="/images/MACB_Profile.png"
+            alt="Profile"
+            className={`logo-small ${hover.profile ? "logo-hover" : ""}`}
+            onMouseEnter={() => setHover({ ...hover, profile: true })}
+            onMouseLeave={() => setHover({ ...hover, profile: false })}
+            onClick={() => router.push("/profile_page")}
+          />
         </div>
       </header>
 
@@ -202,6 +274,15 @@ export default function MacbForm() {
       <footer className="footer">
         © 2025 M.A.C.B., Inc. All Rights Reserved.
       </footer>
+
+      {/* Chat Icon */}
+      <img
+        src="/images/AI_Helper.png"
+        alt="Chat"
+        style={hoverChat ? { ...chatIconStyle, ...chatIconHoverStyle } : chatIconStyle}
+        onMouseEnter={() => setHoverChat(true)}
+        onMouseLeave={() => setHoverChat(false)}
+      />
     </div>
   );
 }
