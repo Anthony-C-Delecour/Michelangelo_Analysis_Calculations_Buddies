@@ -12,7 +12,7 @@ function NavigationLayout() {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '0 2rem',
-            height: '18px',
+            height: '80px',
             backgroundColor: '#3A6A3B',
             color: 'white',
         },

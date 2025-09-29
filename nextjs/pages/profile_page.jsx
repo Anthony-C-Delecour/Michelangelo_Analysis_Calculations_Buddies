@@ -237,7 +237,7 @@ export default function ProfilePage() {
         </div>
         <div 
           style={hoverState.manage ? {...sidebarLinkStyle, ...sidebarLinkHoverStyle} : sidebarLinkStyle}
-          onClick={() => navigateTo('/insert_exert_page')}
+          onClick={() => navigateTo('/insert_extract_page')}
           onMouseEnter={() => handleMouseEnter('manage')}
           onMouseLeave={() => handleMouseLeave('manage')}
         >
