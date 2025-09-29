@@ -1,0 +1,74 @@
+/* Container New Style */
+.container-new {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 24px;
+  max-width: 500px;
+  margin: 0 auto;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Field New Style */
+.field-container-new {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.input-field-new {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  flex-grow: 1;
+}
+
+.label-new {
+  position: absolute;
+  top: -8px;
+  left: 16px;
+  font-size: 12px;
+  line-height: 12px;
+  background: #f9f9f9;
+  padding: 0 4px;
+  color: rgba(0,0,0,0.6);
+}
+
+.icon {
+  color: rgba(0,0,0,0.38);
+}
+
+/* Buttons New Style */
+.button-group-new {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.btn-insert-new {
+  border-radius: 100px;
+  padding: 12px 24px;
+  background-color: #DD9542;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-extract-new {
+  border-radius: 100px;
+  padding: 12px 24px;
+  border: 1px solid #DD9542;
+  color: #DD9542;
+  background-color: #fff;
+  cursor: pointer;
+}
