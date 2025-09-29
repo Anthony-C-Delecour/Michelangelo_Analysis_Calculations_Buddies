@@ -1,11 +1,9 @@
-import React from "react";
+import React from 'react';
 
 // The URL for the turtle logo used in the design
 const turtleLogo = "https://i.imgur.com/vLq5hJd.png"; 
 
 // --- SVG Icon Components ---
-// I've created these to match the style of your ProfilePage icons
-
 const FilterIcon = ({ size = 16, color = "currentColor" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
@@ -53,15 +51,17 @@ export default function DashboardNew() {
     <div style={styles.dashboardNew}>
       {/* Header */}
       <header style={styles.dashboardHeader}>
+        <div style={styles.headerLeft}>
+          <div style={styles.logoContainer}>
+            <img src={turtleLogo} alt="Logo" style={styles.logo} />
+          </div>
+          <nav>
+            <span style={styles.navItem}>Dashboard</span>
+            <span style={styles.navItem}>Manage</span>
+          </nav>
+        </div>
         <div style={styles.logoContainer}>
             <img src={turtleLogo} alt="Logo" style={styles.logo} />
-        </div>
-        <nav>
-          <span style={styles.navItem}>Dashboard</span>
-          <span style={styles.navItem}>Manage</span>
-        </nav>
-        <div style={styles.logoContainer}>
-             <img src={turtleLogo} alt="Logo" style={styles.logo} />
         </div>
       </header>
 
@@ -71,22 +71,54 @@ export default function DashboardNew() {
 
         {/* Filter bar */}
         <div style={styles.filterBar}>
-          <select style={styles.filterSelect}><option>Day: -</option></select>
-          <select style={styles.filterSelect}><option>Month: -</option></select>
-          <select style={styles.filterSelect}><option>Year: -</option></select>
-          <select style={styles.filterSelect}><option>Hour: -</option></select>
-          <select style={styles.filterSelect}><option>Minute: -</option></select>
-          <select style={styles.filterSelect}><option>Period: -</option></select>
-          <select style={{...styles.filterSelect, flex: 1.5}}><option>Financial Choice: -</option></select>
-          <select style={{...styles.filterSelect, flex: 1}}><option>Type: -</option></select>
-          <input type="text" placeholder="Amount (Baht): -" style={{...styles.filterSelect, flex: 1}} />
-          <select style={{...styles.filterSelect, flex: 1}}><option>Per (Unit): -</option></select>
-          <button style={styles.iconBtn}>
-            <FilterIcon color="white" />
-          </button>
-          <button style={styles.iconBtn}>
-            <ClearIcon color="white" />
-          </button>
+            <div style={styles.filterGroup}>
+                <label style={styles.filterLabel}>Day:</label>
+                <select style={styles.filterSelect}><option>-</option></select>
+            </div>
+            <div style={styles.filterGroup}>
+                <label style={styles.filterLabel}>Month:</label>
+                <select style={styles.filterSelect}><option>-</option></select>
+            </div>
+            <div style={styles.filterGroup}>
+                <label style={styles.filterLabel}>Year:</label>
+                <select style={styles.filterSelect}><option>-</option></select>
+            </div>
+            <div style={styles.filterGroup}>
+                <label style={styles.filterLabel}>Hour:</label>
+                <select style={styles.filterSelect}><option>-</option></select>
+            </div>
+            <div style={styles.filterGroup}>
+                <label style={styles.filterLabel}>Minute:</label>
+                <select style={styles.filterSelect}><option>-</option></select>
+            </div>
+            <div style={styles.filterGroup}>
+                <label style={styles.filterLabel}>Period:</label>
+                <select style={styles.filterSelect}><option>-</option></select>
+            </div>
+            <div style={{...styles.filterGroup, flex: 1.5}}>
+                <label style={styles.filterLabel}>Financial Choice:</label>
+                <select style={styles.filterSelect}><option>-</option></select>
+            </div>
+            <div style={{...styles.filterGroup, flex: 1}}>
+                <label style={styles.filterLabel}>Type:</label>
+                <select style={styles.filterSelect}><option>-</option></select>
+            </div>
+            <div style={{...styles.filterGroup, flex: 1}}>
+                <label style={styles.filterLabel}>Amount (Baht):</label>
+                <input type="text" placeholder="-" style={styles.filterSelect} />
+            </div>
+            <div style={{...styles.filterGroup, flex: 1}}>
+                <label style={styles.filterLabel}>Per (Unit):</label>
+                <select style={styles.filterSelect}><option>-</option></select>
+            </div>
+            <div style={styles.filterButtons}>
+                <button style={styles.iconBtn}>
+                    <FilterIcon color="white" />
+                </button>
+                <button style={styles.iconBtn}>
+                    <ClearIcon color="white" />
+                </button>
+            </div>
         </div>
 
         {/* Portfolio List */}
@@ -95,31 +127,26 @@ export default function DashboardNew() {
             <div key={idx} style={styles.dashboardCard}>
               <button style={styles.dateBtn}>{item.date}</button>
               <button style={styles.timeBtn}>{item.time}</button>
-
               <div style={styles.fieldGroup}>
                 <label style={styles.label}>Financial Choice:</label>
                 <input type="text" value={item.choice} readOnly style={styles.input} />
               </div>
-
               <div style={styles.fieldGroup}>
                 <label style={styles.label}>Type:</label>
                 <select value={item.type} readOnly disabled style={styles.input}>
                   <option>{item.type}</option>
                 </select>
               </div>
-
               <div style={styles.fieldGroup}>
                 <label style={styles.label}>Amount (Baht):</label>
                 <input type="text" value={formatAmount(item.amount)} readOnly style={styles.input} />
               </div>
-
               <div style={styles.fieldGroup}>
                 <label style={styles.label}>Per (Unit):</label>
                 <select value={item.unit} readOnly disabled style={styles.input}>
                   <option>{item.unit}</option>
                 </select>
               </div>
-
               <div style={styles.actionBtns}>
                 <span style={styles.actionIcon}><EditIcon /></span>
                 <span style={styles.actionIcon}><TrashIcon /></span>
@@ -147,37 +174,19 @@ export default function DashboardNew() {
 /* Inline Styles */
 const styles = {
   dashboardNew: { fontFamily: "'Inter', sans-serif", background: "#f5f6f4", minHeight: "100vh", display: "flex", flexDirection: "column", position: 'relative' },
-  dashboardHeader: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 40px", background: "#2E4A30", color: "white" },
+  dashboardHeader: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 40px", background: "#2E4A30", color: "white" },
+  headerLeft: { display: 'flex', alignItems: 'center', gap: '20px' },
   logoContainer: { width: '40px', height: '40px' },
   logo: { width: '100%', height: '100%', objectFit: 'contain' },
   navItem: { margin: "0 15px", cursor: "pointer", fontSize: '15px' },
   dashboardMain: { padding: "30px 40px", flex: 1 },
   title: { textAlign: "center", fontSize: "28px", fontWeight: "bold", marginBottom: "30px", color: '#333' },
-  filterBar: { display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "20px", alignItems: 'center' },
-  filterSelect: { 
-    background: 'white', 
-    border: '1px solid #ccc', 
-    borderRadius: '4px', 
-    padding: '6px 10px', 
-    fontSize: '13px', 
-    color: '#555',
-    minWidth: '70px',
-    height: '32px',
-    boxSizing: 'border-box'
-  },
-  iconBtn: { 
-    background: "#3A3A3C", 
-    color: "white", 
-    border: "none", 
-    borderRadius: "6px", 
-    padding: "6px 10px", 
-    cursor: "pointer",
-    height: '32px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: '5px'
-  },
+  filterBar: { display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "20px", alignItems: 'flex-end' },
+  filterGroup: { display: 'flex', flexDirection: 'column', minWidth: '70px',},
+  filterLabel: { fontSize: '12px', color: '#555', marginBottom: '4px', fontWeight: '500' },
+  filterSelect: { background: 'white', border: '1px solid #ccc', borderRadius: '4px', padding: '6px 10px', fontSize: '13px', color: '#555', width: '100%', height: '32px', boxSizing: 'border-box' },
+  filterButtons: { display: 'flex', gap: '5px', paddingBottom: '1px' },
+  iconBtn: { background: "#3A3A3C", color: "white", border: "none", borderRadius: "6px", padding: "6px 10px", cursor: "pointer", height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' },
   dashboardList: { display: "flex", flexDirection: "column", gap: "10px" },
   dashboardCard: { 
     display: "grid", 
@@ -187,7 +196,7 @@ const styles = {
     padding: "15px", 
     borderRadius: "12px", 
     boxShadow: "0px 2px 6px rgba(0,0,0,0.08)", 
-    alignItems: "center" 
+    alignItems: "end" 
   },
   dateBtn: { background: "#d9e0d8", border: "none", borderRadius: "6px", padding: "8px 12px", fontSize: "13px", fontWeight: "500", color: '#333' },
   timeBtn: { background: "#d9e0d8", border: "none", borderRadius: "6px", padding: "8px 12px", fontSize: "13px", fontWeight: "500", color: '#333' },
@@ -203,10 +212,19 @@ const styles = {
     fontSize: '14px',
     boxSizing: 'border-box'
   },
-  actionBtns: { display: "flex", gap: "15px", justifyContent: 'flex-start', paddingLeft: '10px' },
+  actionBtns: { display: "flex", gap: "15px", justifyContent: 'flex-start', paddingLeft: '10px', paddingBottom: '8px' /* Added for fine-tuning icon alignment */ },
   actionIcon: { color: "#444", cursor: "pointer", display: 'flex', alignItems: 'center' },
   bottomButtons: { display: "flex", justifyContent: "center", gap: "15px", marginTop: "25px" },
-  mainBtn: { background: "#2E4A30", color: "white", border: "none", borderRadius: "8px", padding: "10px 25px", fontSize: "14px", cursor: "pointer", fontWeight: 'bold' },
+  mainBtn: { 
+    background: "#2E4A30", 
+    color: "white", 
+    border: "none", 
+    borderRadius: "8px", 
+    padding: "12px 40px", 
+    fontSize: "16px", 
+    cursor: "pointer", 
+    fontWeight: 'bold' 
+  },
   dashboardFooter: { textAlign: "center", padding: "20px", fontSize: "12px", color: "#555", position: 'relative' },
   footerLogo: {
     width: '40px',
