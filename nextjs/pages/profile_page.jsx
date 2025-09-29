@@ -191,6 +191,7 @@ export default function ProfilePage() {
     cursor: "pointer",
     fontWeight: "600",
     transition: "text-shadow 0.2s ease-in-out",
+    color: "#fff",
   };
 
   const topNavLinkHoverStyle = {
@@ -205,7 +206,7 @@ export default function ProfilePage() {
         style={{
           backgroundColor: "#3A6A3B",
           color: "#fff",
-          padding: "10px 30px",
+          padding: "25px 30px",
           fontSize: "18px",
           fontWeight: "600",
           position: "sticky",
