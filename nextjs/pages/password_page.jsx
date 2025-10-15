@@ -1,58 +1,156 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
-import { Visibility, VisibilityOff, Clear } from "@mui/icons-material";
-import styles from "../styles/registrationpage.module.css"; 
+import ClearIcon from "@mui/icons-material/Clear";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
+// Navigation Bar Component
 function NavigationLayout() {
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2rem", height: 80, backgroundColor: "#3A6A3B", color: "white" }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: 80,
+        backgroundColor: "#3A6A3B",
+        color: "white",
+      }}
+    >
       <h1>M.A.C.B.</h1>
     </div>
   );
 }
 
-export default function RegistrationPage() {
+const styles = {
+  pageContainer: {
+    display: "flex",
+    minHeight: "calc(100vh - 80px)",
+    width: "100%",
+    backgroundColor: "#f8f9fa",
+  },
+  leftPanel: {
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "2rem",
+    background: "white",
+  },
+  illustration: {
+    maxWidth: "100%",
+    height: "auto",
+    maxHeight: "80vh",
+  },
+  rightPanel: {
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f8f9fa",
+    padding: "2rem",
+  },
+  card: {
+    background: "white",
+    padding: "3rem 2.5rem",
+    borderRadius: "16px",
+    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.05)",
+    width: "100%",
+    maxWidth: "480px",
+    textAlign: "center",
+  },
+  brandingHeader: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "1rem",
+    marginBottom: "1rem",
+  },
+  acronym: {
+    fontSize: "2.5rem",
+    fontWeight: 700,
+    color: "#212529",
+    margin: 0,
+  },
+  welcomeText: {
+    color: "#6c757d",
+    marginBottom: "2rem",
+    fontSize: "1rem",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+  },
+  buttonGroup: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.75rem",
+    marginTop: "1rem",
+  },
+  sendResetBtn: {
+    backgroundColor: "#3A6A3B",
+    color: "white",
+    padding: "14px 0",
+    textTransform: "none",
+    fontWeight: 600,
+    fontSize: "1.1rem",
+    borderRadius: "8px",
+  },
+  backSignInBtn: {
+    borderColor: "#3A6A3B",
+    color: "#3A6A3B",
+    padding: "14px 0",
+    textTransform: "none",
+    fontWeight: 600,
+    fontSize: "1.1rem",
+    borderRadius: "8px",
+  },
+  tooltipBox: {
+    textAlign: "left",
+    marginTop: "0.25rem",
+    fontSize: "0.85rem",
+    border: "1px solid #ced4da",
+    borderRadius: "8px",
+    padding: "0.75rem 1rem",
+    backgroundColor: "#f1f3f5",
+  },
+  footer: {
+    marginTop: "2rem",
+    color: "#adb5bd",
+    fontSize: "0.8rem",
+  },
+};
+
+export default function ResetPasswordPage() {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
     password: "",
     confirmPassword: "",
-    agree: false,
   });
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPasswordHint, setShowPasswordHint] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const clearField = (fieldName) => {
-    setFormData({ ...formData, [fieldName]: "" });
+  const clearField = (field) => {
+    setFormData((prev) => ({ ...prev, [field]: "" }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.agree) {
-      console.error("Please accept the Terms and Conditions to proceed.");
-      return;
-    }
     if (formData.password !== formData.confirmPassword) {
-      console.error("Passwords do not match!");
+      alert("Passwords do not match!");
       return;
     }
-    console.log("Registration successful:", formData);
-    window.location.href = "/dashboard_page";
+    alert("Password reset successful!");
+    console.log("Password reset:", formData.password);
   };
 
   const handleSignIn = () => {
@@ -62,70 +160,31 @@ export default function RegistrationPage() {
   return (
     <>
       <NavigationLayout />
-      <div className={styles.pageContainer}>
-        <div className={styles.leftPanel}>
+      <div style={styles.pageContainer}>
+        {/* Left Panel */}
+        <div style={styles.leftPanel}>
           <img
             src="/images/Michelangelo_Welcome.png"
             alt="Team working on analytics"
-            className={styles.illustration}
+            style={styles.illustration}
           />
         </div>
 
-        <div className={styles.rightPanel}>
-          <div className={styles.card}>
-            <div className={styles.brandingHeader}>
+        {/* Right Panel */}
+        <div style={styles.rightPanel}>
+          <div style={styles.card}>
+            <div style={styles.brandingHeader}>
               <img
                 src="/images/MACB_logo.png"
                 alt="M.A.C.B. Logo"
                 style={{ width: 80, height: 80, objectFit: "contain" }}
               />
-              <h1 className={styles.acronym}>M.A.C.B.</h1>
+              <h1 style={styles.acronym}>M.A.C.B.</h1>
             </div>
 
-            <p className={styles.welcomeText}>
-              Welcome to Michelangelo Analysis Calculations Buddies!
-            </p>
+            <p style={styles.welcomeText}>Please reset your account password.</p>
 
-            <form className={styles.form} onSubmit={handleSubmit}>
-              {/* Username */}
-              <TextField
-                label="Username"
-                name="username"
-                variant="outlined"
-                fullWidth
-                value={formData.username}
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: formData.username && (
-                    <InputAdornment position="end">
-                      <IconButton onClick={() => clearField("username")}>
-                        <Clear />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              {/* Email */}
-              <TextField
-                label="Email"
-                name="email"
-                type="email"
-                variant="outlined"
-                fullWidth
-                value={formData.email}
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: formData.email && (
-                    <InputAdornment position="end">
-                      <IconButton onClick={() => clearField("email")}>
-                        <Clear />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
+            <form style={styles.form} onSubmit={handleSubmit}>
               {/* Password */}
               <TextField
                 label="Password"
@@ -142,7 +201,7 @@ export default function RegistrationPage() {
                     <InputAdornment position="end">
                       {formData.password && (
                         <IconButton onClick={() => clearField("password")}>
-                          <Clear />
+                          <ClearIcon />
                         </IconButton>
                       )}
                       <IconButton onClick={() => setShowPassword(!showPassword)}>
@@ -155,7 +214,7 @@ export default function RegistrationPage() {
 
               {/* Password Hint */}
               {showPasswordHint && formData.password && (
-                <div className={styles.tooltipBox}>
+                <div style={styles.tooltipBox}>
                   <p style={{ color: formData.password.length >= 8 ? "green" : "red" }}>
                     • At least 8 characters
                   </p>
@@ -185,10 +244,12 @@ export default function RegistrationPage() {
                     <InputAdornment position="end">
                       {formData.confirmPassword && (
                         <IconButton onClick={() => clearField("confirmPassword")}>
-                          <Clear />
+                          <ClearIcon />
                         </IconButton>
                       )}
-                      <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                      <IconButton
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      >
                         {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -199,8 +260,10 @@ export default function RegistrationPage() {
               {/* Confirm Password Feedback */}
               {formData.confirmPassword && (
                 <div
-                  className={styles.tooltipBox}
-                  style={{ color: formData.confirmPassword === formData.password ? "green" : "red" }}
+                  style={{
+                    ...styles.tooltipBox,
+                    color: formData.confirmPassword === formData.password ? "green" : "red",
+                  }}
                 >
                   {formData.confirmPassword === formData.password
                     ? "Password matches"
@@ -208,30 +271,17 @@ export default function RegistrationPage() {
                 </div>
               )}
 
-              <div className={styles.buttonGroup}>
-                <Button type="submit" variant="contained" className={styles.registerBtn} fullWidth>
-                  Register
+              <div style={styles.buttonGroup}>
+                <Button type="submit" variant="contained" style={styles.sendResetBtn} fullWidth>
+                  Reset Password
                 </Button>
-                <Button variant="outlined" className={styles.signInBtn} onClick={handleSignIn} fullWidth>
+                <Button variant="outlined" style={styles.backSignInBtn} onClick={handleSignIn} fullWidth>
                   Sign In
                 </Button>
               </div>
-
-              <FormControlLabel
-                className={styles.terms}
-                control={
-                  <Checkbox
-                    checked={formData.agree}
-                    onChange={handleChange}
-                    name="agree"
-                    sx={{ "&.Mui-checked": { color: "#3A6A3B" } }}
-                  />
-                }
-                label="I accept the Terms and Conditions"
-              />
             </form>
 
-            <p className={styles.footer}>© 2025 M.A.C.B., Inc. All Rights Reserved.</p>
+            <p style={styles.footer}>© 2025 M.A.C.B., Inc. All Rights Reserved.</p>
           </div>
         </div>
       </div>
