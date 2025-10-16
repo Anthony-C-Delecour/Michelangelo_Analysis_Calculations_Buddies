@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Link from "@mui/material/Link"; 
 import styles from "../styles/password.module.css";
 
 function NavigationLayout() {
@@ -55,7 +56,7 @@ export default function ResetPasswordPage() {
         {/* Left Panel */}
         <div className={styles.leftPanel}>
           <img
-            src="/images/Michelangelo_Welcome.png"
+            src="/images/Michelangelo_Reset.png"
             alt="Team working on analytics"
             className={styles.illustration}
           />
@@ -163,19 +164,26 @@ export default function ResetPasswordPage() {
                 </div>
               )}
 
+              {/* Reset Button */}
               <div className={styles.buttonGroup}>
-                <Button type="submit" variant="contained" className={styles.sendResetBtn} fullWidth>
-                  Reset Password
-                </Button>
                 <Button
-                  variant="outlined"
-                  className={styles.backSignInBtn}
-                  onClick={handleSignIn}
+                  type="submit"
+                  variant="contained"
+                  className={styles.sendResetBtn}
                   fullWidth
                 >
-                  Back to Sign In
+                  Reset Password
                 </Button>
               </div>
+
+              {/* Back to Sign In Link */}
+              <Link
+                onClick={handleSignIn}
+                className={styles.backSignIn}
+                underline="none"
+              >
+                Back to Sign In
+              </Link>
             </form>
 
             <p className={styles.footer}>© 2025 M.A.C.B., Inc. All Rights Reserved.</p>

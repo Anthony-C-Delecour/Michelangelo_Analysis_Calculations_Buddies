@@ -4,7 +4,8 @@ import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
-import styles from "../styles/forgetpage.module.css"; 
+import Link from "@mui/material/Link"; 
+import styles from "../styles/forgetpage.module.css";
 
 function NavigationLayout() {
   return (
@@ -30,6 +31,7 @@ export default function ResetPasswordPage() {
     <>
       <NavigationLayout />
       <div className={styles.pageContainer}>
+        {/* LEFT PANEL */}
         <div className={styles.leftPanel}>
           <img
             src="/images/Michelangelo_Forget.png"
@@ -38,6 +40,7 @@ export default function ResetPasswordPage() {
           />
         </div>
 
+        {/* RIGHT PANEL */}
         <div className={styles.rightPanel}>
           <div className={styles.card}>
             <div className={styles.brandingHeader}>
@@ -54,6 +57,7 @@ export default function ResetPasswordPage() {
             </p>
 
             <form className={styles.form} onSubmit={handleSubmit}>
+              {/* EMAIL FIELD */}
               <TextField
                 label="Email"
                 variant="outlined"
@@ -71,6 +75,7 @@ export default function ResetPasswordPage() {
                 }}
               />
 
+              {/* SEND RESET LINK BUTTON */}
               <div className={styles.buttonGroup}>
                 <Button
                   type="submit"
@@ -80,15 +85,16 @@ export default function ResetPasswordPage() {
                 >
                   Send Reset Link
                 </Button>
-                <Button
-                  variant="outlined"
-                  className={styles.backSignInBtn}
-                  onClick={handleSignIn}
-                  fullWidth
-                >
-                  Back to Sign In
-                </Button>
               </div>
+
+              {/* BACK TO SIGN IN LINK */}
+              <Link
+                onClick={handleSignIn}
+                className={styles.backSignIn}
+                underline="none"
+              >
+                Back to Sign In
+              </Link>
             </form>
 
             <p className={styles.footer}>
