@@ -65,7 +65,7 @@ export default function RegistrationPage() {
       <div className={styles.pageContainer}>
         <div className={styles.leftPanel}>
           <img
-            src="/images/Michelangelo_Welcome.png"
+            src="/images/Michelangelo_Registration.png"
             alt="Team working on analytics"
             className={styles.illustration}
           />
