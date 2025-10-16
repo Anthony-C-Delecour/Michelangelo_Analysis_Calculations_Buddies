@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import styles from "../styles/password.module.css"; // ✅ Import CSS Module
+import styles from "../styles/password.module.css";
 
 function NavigationLayout() {
   return (
@@ -55,7 +55,7 @@ export default function ResetPasswordPage() {
         {/* Left Panel */}
         <div className={styles.leftPanel}>
           <img
-            src="/images/Michelangelo_Reset.png"
+            src="/images/Michelangelo_Welcome.png"
             alt="Team working on analytics"
             className={styles.illustration}
           />
