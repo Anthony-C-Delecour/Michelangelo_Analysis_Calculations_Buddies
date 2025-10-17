@@ -1,4 +1,7 @@
-fastapi[standard]
+fastapi
 uvicorn
-databases[asyncpg]
-pydantic
+sqlalchemy
+psycopg2-binary
+passlib[bcrypt]
+python-jose
+email-validator

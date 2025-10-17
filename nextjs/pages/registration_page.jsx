@@ -10,7 +10,17 @@ import styles from "../styles/registrationpage.module.css";
 
 function NavigationLayout() {
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2rem", height: 80, backgroundColor: "#3A6A3B", color: "white" }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "0 2rem",
+        height: 80,
+        backgroundColor: "#3A6A3B",
+        color: "white",
+      }}
+    >
       <h1>M.A.C.B.</h1>
     </div>
   );
@@ -63,18 +73,48 @@ export default function RegistrationPage() {
     setFormData({ ...formData, [fieldName]: "" });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.agree) {
-      console.error("Please accept the Terms and Conditions to proceed.");
+
+    const form = e.target;
+
+    // Trigger browser-native validation (required fields + email + checkbox)
+    if (!form.checkValidity()) {
+      form.reportValidity();
       return;
     }
+
+    // Custom validation for passwords match
     if (formData.password !== formData.confirmPassword) {
       console.error("Passwords do not match!");
       return;
     }
-    console.log("Registration successful:", formData);
-    window.location.href = "/dashboard_page";
+
+    // Submit registration
+    try {
+      const response = await fetch("http://localhost:8000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Registration successful:", data);
+        window.location.href = "/dashboard_page";
+      } else {
+        console.error("Registration failed:", data.detail || data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const handleSignIn = () => {
@@ -117,6 +157,8 @@ export default function RegistrationPage() {
                 fullWidth
                 value={formData.username}
                 onChange={handleChange}
+                required
+                inputProps={{ required: true }}
                 InputProps={{
                   endAdornment: formData.username && (
                     <InputAdornment position="end">
@@ -137,6 +179,8 @@ export default function RegistrationPage() {
                 fullWidth
                 value={formData.email}
                 onChange={handleChange}
+                required
+                inputProps={{ required: true }}
                 InputProps={{
                   endAdornment: formData.email && (
                     <InputAdornment position="end">
@@ -159,6 +203,8 @@ export default function RegistrationPage() {
                 onChange={handleChange}
                 onFocus={() => setShowPasswordHint(true)}
                 onBlur={() => setShowPasswordHint(true)}
+                required
+                inputProps={{ required: true }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -191,7 +237,9 @@ export default function RegistrationPage() {
                   </div>
                   <div
                     className={styles.passwordStrengthLabelBelow}
-                    style={{ color: getPasswordStrength(formData.password).color }}
+                    style={{
+                      color: getPasswordStrength(formData.password).color,
+                    }}
                   >
                     {getPasswordStrength(formData.password).label}
                   </div>
@@ -243,6 +291,8 @@ export default function RegistrationPage() {
                 fullWidth
                 value={formData.confirmPassword}
                 onChange={handleChange}
+                required
+                inputProps={{ required: true }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -282,6 +332,22 @@ export default function RegistrationPage() {
                 </div>
               )}
 
+              {/* Terms & Conditions */}
+              <FormControlLabel
+                className={styles.terms}
+                control={
+                  <Checkbox
+                    checked={formData.agree}
+                    onChange={handleChange}
+                    name="agree"
+                    required
+                    inputProps={{ required: true }}
+                    sx={{ "&.Mui-checked": { color: "#3A6A3B" } }}
+                  />
+                }
+                label="I accept the Terms and Conditions"
+              />
+
               {/* Buttons */}
               <div className={styles.buttonGroup}>
                 <Button
@@ -301,19 +367,6 @@ export default function RegistrationPage() {
                   Sign In
                 </Button>
               </div>
-
-              <FormControlLabel
-                className={styles.terms}
-                control={
-                  <Checkbox
-                    checked={formData.agree}
-                    onChange={handleChange}
-                    name="agree"
-                    sx={{ "&.Mui-checked": { color: "#3A6A3B" } }}
-                  />
-                }
-                label="I accept the Terms and Conditions"
-              />
             </form>
 
             <p className={styles.footer}>
