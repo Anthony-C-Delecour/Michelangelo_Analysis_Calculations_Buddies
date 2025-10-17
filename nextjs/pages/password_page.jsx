@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Link from "@mui/material/Link"; 
+import Link from "@mui/material/Link";
 import styles from "../styles/password.module.css";
 
 function NavigationLayout() {
@@ -25,6 +25,28 @@ export default function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPasswordHint, setShowPasswordHint] = useState(false);
+
+  const getPasswordStrength = (password) => {
+    let score = 0;
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/\d/.test(password)) score++;
+    if (/[!@#$%^&*]/.test(password)) score++;
+
+    switch (score) {
+      case 0:
+      case 1:
+        return { label: "Weak", color: "#ff4d4d", percent: 25 };
+      case 2:
+        return { label: "Fair", color: "#faa938ff", percent: 50 };
+      case 3:
+        return { label: "Good", color: "#d3d13cff", percent: 75 };
+      case 4:
+        return { label: "Strong", color: "#4caf50", percent: 100 };
+      default:
+        return { label: "", color: "#ccc", percent: 0 };
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,7 +96,9 @@ export default function ResetPasswordPage() {
               <h1 className={styles.acronym}>M.A.C.B.</h1>
             </div>
 
-            <p className={styles.welcomeText}>Please reset your account password.</p>
+            <p className={styles.welcomeText}>
+              Please reset your account password.
+            </p>
 
             <form className={styles.form} onSubmit={handleSubmit}>
               {/* Password */}
@@ -96,7 +120,9 @@ export default function ResetPasswordPage() {
                           <ClearIcon />
                         </IconButton>
                       )}
-                      <IconButton onClick={() => setShowPassword(!showPassword)}>
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -104,19 +130,82 @@ export default function ResetPasswordPage() {
                 }}
               />
 
+              {/* Password Strength Bar and Label (fixed) */}
+              {formData.password && (
+                <div style={{ width: "100%", marginTop: "10px" }}>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "8px",
+                      backgroundColor: "#e0e0e0",
+                      borderRadius: "4px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: `${getPasswordStrength(formData.password).percent}%`,
+                        backgroundColor: getPasswordStrength(formData.password)
+                          .color,
+                        height: "100%",
+                        borderRadius: "4px",
+                        transition:
+                          "width 0.3s ease, background-color 0.3s ease",
+                      }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      color: getPasswordStrength(formData.password).color,
+                      textAlign: "center",
+                      fontWeight: 600,
+                      marginTop: "6px",
+                      fontSize: "0.9rem",
+                      textShadow: "0 0 2px rgba(0,0,0,0.3)",
+                    }}
+                  >
+                    {getPasswordStrength(formData.password).label}
+                  </div>
+                </div>
+              )}
+
               {/* Password Hint */}
               {showPasswordHint && formData.password && (
                 <div className={styles.tooltipBox}>
-                  <p className={formData.password.length >= 8 ? styles.valid : styles.invalid}>
+                  <p
+                    className={
+                      formData.password.length >= 8
+                        ? styles.valid
+                        : styles.invalid
+                    }
+                  >
                     • At least 8 characters
                   </p>
-                  <p className={/[A-Z]/.test(formData.password) ? styles.valid : styles.invalid}>
+                  <p
+                    className={
+                      /[A-Z]/.test(formData.password)
+                        ? styles.valid
+                        : styles.invalid
+                    }
+                  >
                     • At least 1 uppercase letter
                   </p>
-                  <p className={/\d/.test(formData.password) ? styles.valid : styles.invalid}>
+                  <p
+                    className={
+                      /\d/.test(formData.password)
+                        ? styles.valid
+                        : styles.invalid
+                    }
+                  >
                     • At least 1 number
                   </p>
-                  <p className={/[!@#$%^&*]/.test(formData.password) ? styles.valid : styles.invalid}>
+                  <p
+                    className={
+                      /[!@#$%^&*]/.test(formData.password)
+                        ? styles.valid
+                        : styles.invalid
+                    }
+                  >
                     • At least 1 special character (!@#$%^&*)
                   </p>
                 </div>
@@ -135,14 +224,22 @@ export default function ResetPasswordPage() {
                   endAdornment: (
                     <InputAdornment position="end">
                       {formData.confirmPassword && (
-                        <IconButton onClick={() => clearField("confirmPassword")}>
+                        <IconButton
+                          onClick={() => clearField("confirmPassword")}
+                        >
                           <ClearIcon />
                         </IconButton>
                       )}
                       <IconButton
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
                       >
-                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                        {showConfirmPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -186,7 +283,9 @@ export default function ResetPasswordPage() {
               </Link>
             </form>
 
-            <p className={styles.footer}>© 2025 M.A.C.B., Inc. All Rights Reserved.</p>
+            <p className={styles.footer}>
+              © 2025 M.A.C.B., Inc. All Rights Reserved.
+            </p>
           </div>
         </div>
       </div>

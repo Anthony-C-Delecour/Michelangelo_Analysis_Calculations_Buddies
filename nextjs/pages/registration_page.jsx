@@ -29,7 +29,6 @@ export default function RegistrationPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPasswordHint, setShowPasswordHint] = useState(false);
 
-  // Password strength evaluator
   const getPasswordStrength = (password) => {
     let score = 0;
     if (password.length >= 8) score++;
@@ -42,9 +41,9 @@ export default function RegistrationPage() {
       case 1:
         return { label: "Weak", color: "#ff4d4d", percent: 25 };
       case 2:
-        return { label: "Fair", color: "#ffb347", percent: 50 };
+        return { label: "Fair", color: "#faa938ff", percent: 50 };
       case 3:
-        return { label: "Good", color: "#fdd835", percent: 75 };
+        return { label: "Good", color: "#d3d13cff", percent: 75 };
       case 4:
         return { label: "Strong", color: "#4caf50", percent: 100 };
       default:
@@ -178,17 +177,18 @@ export default function RegistrationPage() {
                 }}
               />
 
-              {/* Password Strength Bar with label beneath */}
+              {/* Password Strength Bar */}
               {formData.password && (
                 <div className={styles.passwordStrengthContainer}>
-                  <div
-                    className={styles.passwordStrengthBar}
-                    style={{
-                      width: `${getPasswordStrength(formData.password).percent}%`,
-                      backgroundColor: getPasswordStrength(formData.password).color,
-                      transition: "width 0.3s ease, background-color 0.3s ease",
-                    }}
-                  />
+                  <div className={styles.passwordStrengthTrack}>
+                    <div
+                      className={styles.passwordStrengthBar}
+                      style={{
+                        width: `${getPasswordStrength(formData.password).percent}%`,
+                        backgroundColor: getPasswordStrength(formData.password).color,
+                      }}
+                    />
+                  </div>
                   <div
                     className={styles.passwordStrengthLabelBelow}
                     style={{ color: getPasswordStrength(formData.password).color }}
@@ -247,7 +247,9 @@ export default function RegistrationPage() {
                   endAdornment: (
                     <InputAdornment position="end">
                       {formData.confirmPassword && (
-                        <IconButton onClick={() => clearField("confirmPassword")}>
+                        <IconButton
+                          onClick={() => clearField("confirmPassword")}
+                        >
                           <Clear />
                         </IconButton>
                       )}
@@ -280,6 +282,7 @@ export default function RegistrationPage() {
                 </div>
               )}
 
+              {/* Buttons */}
               <div className={styles.buttonGroup}>
                 <Button
                   type="submit"
