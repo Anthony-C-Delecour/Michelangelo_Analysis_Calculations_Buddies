@@ -6,7 +6,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { Visibility, VisibilityOff, Clear } from "@mui/icons-material";
-import styles from "../styles/registrationpage.module.css"; 
+import styles from "../styles/registrationpage.module.css";
 
 function NavigationLayout() {
   return (
@@ -28,6 +28,29 @@ export default function RegistrationPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPasswordHint, setShowPasswordHint] = useState(false);
+
+  // Password strength evaluator
+  const getPasswordStrength = (password) => {
+    let score = 0;
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/\d/.test(password)) score++;
+    if (/[!@#$%^&*]/.test(password)) score++;
+
+    switch (score) {
+      case 0:
+      case 1:
+        return { label: "Weak", color: "#ff4d4d", percent: 25 };
+      case 2:
+        return { label: "Fair", color: "#ffb347", percent: 50 };
+      case 3:
+        return { label: "Good", color: "#fdd835", percent: 75 };
+      case 4:
+        return { label: "Strong", color: "#4caf50", percent: 100 };
+      default:
+        return { label: "", color: "#ccc", percent: 0 };
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -145,7 +168,9 @@ export default function RegistrationPage() {
                           <Clear />
                         </IconButton>
                       )}
-                      <IconButton onClick={() => setShowPassword(!showPassword)}>
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -153,19 +178,57 @@ export default function RegistrationPage() {
                 }}
               />
 
+              {/* Password Strength Bar with label beneath */}
+              {formData.password && (
+                <div className={styles.passwordStrengthContainer}>
+                  <div
+                    className={styles.passwordStrengthBar}
+                    style={{
+                      width: `${getPasswordStrength(formData.password).percent}%`,
+                      backgroundColor: getPasswordStrength(formData.password).color,
+                      transition: "width 0.3s ease, background-color 0.3s ease",
+                    }}
+                  />
+                  <div
+                    className={styles.passwordStrengthLabelBelow}
+                    style={{ color: getPasswordStrength(formData.password).color }}
+                  >
+                    {getPasswordStrength(formData.password).label}
+                  </div>
+                </div>
+              )}
+
               {/* Password Hint */}
               {showPasswordHint && formData.password && (
                 <div className={styles.tooltipBox}>
-                  <p style={{ color: formData.password.length >= 8 ? "green" : "red" }}>
+                  <p
+                    style={{
+                      color: formData.password.length >= 8 ? "green" : "red",
+                    }}
+                  >
                     • At least 8 characters
                   </p>
-                  <p style={{ color: /[A-Z]/.test(formData.password) ? "green" : "red" }}>
+                  <p
+                    style={{
+                      color: /[A-Z]/.test(formData.password) ? "green" : "red",
+                    }}
+                  >
                     • At least 1 uppercase letter
                   </p>
-                  <p style={{ color: /\d/.test(formData.password) ? "green" : "red" }}>
+                  <p
+                    style={{
+                      color: /\d/.test(formData.password) ? "green" : "red",
+                    }}
+                  >
                     • At least 1 number
                   </p>
-                  <p style={{ color: /[!@#$%^&*]/.test(formData.password) ? "green" : "red" }}>
+                  <p
+                    style={{
+                      color: /[!@#$%^&*]/.test(formData.password)
+                        ? "green"
+                        : "red",
+                    }}
+                  >
                     • At least 1 special character (!@#$%^&*)
                   </p>
                 </div>
@@ -188,7 +251,11 @@ export default function RegistrationPage() {
                           <Clear />
                         </IconButton>
                       )}
-                      <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                      <IconButton
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                      >
                         {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -200,7 +267,12 @@ export default function RegistrationPage() {
               {formData.confirmPassword && (
                 <div
                   className={styles.tooltipBox}
-                  style={{ color: formData.confirmPassword === formData.password ? "green" : "red" }}
+                  style={{
+                    color:
+                      formData.confirmPassword === formData.password
+                        ? "green"
+                        : "red",
+                  }}
                 >
                   {formData.confirmPassword === formData.password
                     ? "Password matches"
@@ -209,10 +281,20 @@ export default function RegistrationPage() {
               )}
 
               <div className={styles.buttonGroup}>
-                <Button type="submit" variant="contained" className={styles.registerBtn} fullWidth>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className={styles.registerBtn}
+                  fullWidth
+                >
                   Register
                 </Button>
-                <Button variant="outlined" className={styles.signInBtn} onClick={handleSignIn} fullWidth>
+                <Button
+                  variant="outlined"
+                  className={styles.signInBtn}
+                  onClick={handleSignIn}
+                  fullWidth
+                >
                   Sign In
                 </Button>
               </div>
@@ -231,7 +313,9 @@ export default function RegistrationPage() {
               />
             </form>
 
-            <p className={styles.footer}>© 2025 M.A.C.B., Inc. All Rights Reserved.</p>
+            <p className={styles.footer}>
+              © 2025 M.A.C.B., Inc. All Rights Reserved.
+            </p>
           </div>
         </div>
       </div>
